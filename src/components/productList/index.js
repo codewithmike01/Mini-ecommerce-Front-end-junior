@@ -14,8 +14,8 @@ function ProductList() {
 export default ProductList;
 const Container = styled.div`
   padding-top: 1.5rem;
-
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 10px;
+  column-gap: 10px;
+  row-gap: 10px;
 `;

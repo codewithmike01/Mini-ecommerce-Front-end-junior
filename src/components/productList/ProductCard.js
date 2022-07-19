@@ -30,7 +30,7 @@ const Container = styled.div`
   padding: 15px;
   padding-bottom: 30px;
   border: 2px solid #000;
-  height: 100%;
+  height: 140px;
 
   .product-list-text {
     text-align: center;
