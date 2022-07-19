@@ -3,7 +3,7 @@ import Button from '../utilities/button';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-function Header() {
+function Header({ headingText }) {
   const navigate = useNavigate();
   const HandleAddPage = () => {
     navigate('/add-product');
@@ -11,7 +11,7 @@ function Header() {
   return (
     <Container>
       <section className="header-items flex j-between">
-        <h1>Product List</h1>
+        <h1>{headingText}</h1>
 
         <div className="header-buttons flex">
           <Button type="button" title="ADD" actionHandle={HandleAddPage} />
