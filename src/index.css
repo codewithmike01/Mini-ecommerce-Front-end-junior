@@ -61,3 +61,7 @@ p {
   cursor: pointer;
   background-color: rgba(10, 10, 233, 1);
 }
+
+.form-item {
+  width: 50%;
+}
