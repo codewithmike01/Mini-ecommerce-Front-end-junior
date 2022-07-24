@@ -43,7 +43,6 @@ function Form() {
   };
 
   const handleSubmit = (e) => {
-    console.log('in form');
     e.preventDefault();
     console.log('in form');
   };
