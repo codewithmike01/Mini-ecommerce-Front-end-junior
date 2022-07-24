@@ -11,7 +11,7 @@ function ProductList() {
   return (
     <>
       <Header headingText="Product List" />
-      <Container>{products}</Container>;
+      <Container>{products}</Container>
     </>
   );
 }
