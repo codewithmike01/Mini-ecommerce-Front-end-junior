@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import BookForm from './formUtils/BookForm';
 import DvdForm from './formUtils/DvdForm';
 import FunitureForm from './formUtils/FunitureForm';
-import Button from '../utilities/Button';
+import selectedFormItem, { getFormValue } from './formUtils/Ultils';
 
 function Form() {
   const noItemShown = {
@@ -11,13 +11,14 @@ function Form() {
     Furniture: false,
     Book: false,
   };
+
   const [state, setState] = useState(noItemShown);
 
   const formSelect = (e) => {
-    const item = e.target.value;
+    const itemSelected = e.target.value;
 
     setState(() => {
-      switch (item) {
+      switch (itemSelected) {
         case 'DVD':
           return {
             Furniture: false,
@@ -44,7 +45,9 @@ function Form() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('in form');
+    const selectedValue = selectedFormItem(state);
+    const submitForm = getFormValue(selectedValue, e);
+    console.log(submitForm);
   };
 
   return (
@@ -77,7 +80,6 @@ function Form() {
             <option value="Book">Book</option>
           </select>
         </div>
-
         <section className="dynamic-form flex column">
           <div
             className="book-form"
@@ -85,14 +87,12 @@ function Form() {
           >
             <BookForm />
           </div>
-
           <div
             className="dvd-form"
             style={{ display: state['DVD'] ? 'block' : 'none' }}
           >
             <DvdForm />
           </div>
-
           <div
             className="furniture-form"
             style={{ display: state['Furniture'] ? 'block' : 'none' }}
@@ -101,9 +101,9 @@ function Form() {
           </div>
         </section>
 
-        <Button type="submit" title="SAVE" className="button">
+        <button type="submit" title="SAVE" className="button">
           Save
-        </Button>
+        </button>
       </form>
     </Container>
   );

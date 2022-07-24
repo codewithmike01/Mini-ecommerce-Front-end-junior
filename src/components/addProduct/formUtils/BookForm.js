@@ -6,7 +6,7 @@ function BookForm() {
     <Container>
       <div className="form-item flex j-between">
         <label>Weight (KG) </label>
-        <input type="text" id="book" name="books" value=" " required />
+        <input type="text" id="book" name="book" />
       </div>
       <p>Please Provide Weight</p>
     </Container>

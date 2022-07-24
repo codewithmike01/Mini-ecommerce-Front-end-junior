@@ -6,7 +6,7 @@ function DvdForm() {
     <Container>
       <div className="form-item flex j-between">
         <label>Size (MB) </label>
-        <input type="text" id="DVD" name="DVD" required />
+        <input type="text" id="DVD" name="DVD" />
       </div>
       <p>Please Provide Size</p>
     </Container>
