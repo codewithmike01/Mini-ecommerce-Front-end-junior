@@ -8,7 +8,9 @@ function BookForm() {
         <label>Weight (KG) </label>
         <input type="text" id="book" name="book" />
       </div>
-      <p>Please Provide Weight</p>
+      <p>
+        <span className="very-imp">*</span>Please Provide Weight
+      </p>
     </Container>
   );
 }

@@ -3,7 +3,13 @@ import styled from 'styled-components';
 import BookForm from './formUtils/BookForm';
 import DvdForm from './formUtils/DvdForm';
 import FunitureForm from './formUtils/FunitureForm';
-import selectedFormItem, { getFormValue } from './formUtils/Ultils';
+import selectedFormItem, {
+  getFormValue,
+  isEmpty,
+  validateData,
+} from './formUtils/Ultils';
+import { useNavigate } from 'react-router-dom';
+import Notification from '../feature/Notification';
 
 function Form() {
   const noItemShown = {
@@ -12,7 +18,12 @@ function Form() {
     Book: false,
   };
 
+  const navigate = useNavigate();
   const [state, setState] = useState(noItemShown);
+  const [notice, setNotice] = useState({
+    show: false,
+    message: '',
+  });
 
   const formSelect = (e) => {
     const itemSelected = e.target.value;
@@ -46,66 +57,95 @@ function Form() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const selectedValue = selectedFormItem(state);
-    const submitForm = getFormValue(selectedValue, e);
-    console.log(submitForm);
+    const formData = getFormValue(selectedValue, e);
+    const isEmptyReponse = isEmpty(formData);
+
+    if (isEmptyReponse[0] === true) {
+      setNotice(() => ({
+        show: isEmptyReponse[0],
+        message: isEmptyReponse[1],
+      }));
+
+      setTimeout(() => {
+        setNotice(() => ({
+          ...notice,
+          show: false,
+        }));
+      }, 5000);
+    } else {
+      validateData(formData);
+    }
   };
 
   return (
-    <Container>
-      <form
-        className="product-form flex column"
-        onSubmit={(e) => handleSubmit(e)}
-      >
-        <div className="form-item flex j-between">
-          <label>SkU</label>
-          <input type="text" name="sku" id="sku" required />
-        </div>
-
-        <div className="form-item flex j-between">
-          <label>Name</label>
-          <input type="text" name="name" id="name" required />
-        </div>
-
-        <div className="form-item flex j-between">
-          <label>Price ($)</label>
-          <input type="text" name="price" id="price" required />
-        </div>
-
-        <div className=" switcher form-item flex j-between">
-          <label>Type Switcher</label>
-          <select onChange={(e) => formSelect(e)}>
-            <option selected>Type Switcher</option>
-            <option value="DVD">DVD</option>
-            <option value="Furniture">Furniture</option>
-            <option value="Book">Book</option>
-          </select>
-        </div>
-        <section className="dynamic-form flex column">
-          <div
-            className="book-form"
-            style={{ display: state['Book'] ? 'block' : 'none' }}
-          >
-            <BookForm />
+    <>
+      <Notification message={notice['message']} show={notice['show']} />
+      <Container>
+        <form
+          className="product-form flex column"
+          onSubmit={(e) => handleSubmit(e)}
+        >
+          <div className="form-item flex j-between">
+            <label>SkU</label>
+            <input type="text" name="sku" id="sku" />
           </div>
-          <div
-            className="dvd-form"
-            style={{ display: state['DVD'] ? 'block' : 'none' }}
-          >
-            <DvdForm />
-          </div>
-          <div
-            className="furniture-form"
-            style={{ display: state['Furniture'] ? 'block' : 'none' }}
-          >
-            <FunitureForm />
-          </div>
-        </section>
 
-        <button type="submit" title="SAVE" className="button">
-          Save
-        </button>
-      </form>
-    </Container>
+          <div className="form-item flex j-between">
+            <label>Name</label>
+            <input type="text" name="name" id="name" />
+          </div>
+
+          <div className="form-item flex j-between">
+            <label>Price ($)</label>
+            <input type="text" name="price" id="price" />
+          </div>
+
+          <div className=" switcher form-item flex j-between">
+            <label>Type Switcher</label>
+            <select onChange={(e) => formSelect(e)}>
+              <option selected>Type Switcher</option>
+              <option value="DVD">DVD</option>
+              <option value="Furniture">Furniture</option>
+              <option value="Book">Book</option>
+            </select>
+          </div>
+          <section className="dynamic-form flex column">
+            <div
+              className="book-form"
+              style={{ display: state['Book'] ? 'block' : 'none' }}
+            >
+              <BookForm />
+            </div>
+            <div
+              className="dvd-form"
+              style={{ display: state['DVD'] ? 'block' : 'none' }}
+            >
+              <DvdForm />
+            </div>
+            <div
+              className="furniture-form"
+              style={{ display: state['Furniture'] ? 'block' : 'none' }}
+            >
+              <FunitureForm />
+            </div>
+          </section>
+
+          <div className="form-buttons flex">
+            <button
+              type="button"
+              className="button"
+              onClick={() => navigate('/')}
+            >
+              Cancel
+            </button>
+
+            <button type="submit" className="button">
+              Save
+            </button>
+          </div>
+        </form>
+      </Container>
+    </>
   );
 }
 
@@ -137,8 +177,11 @@ const Container = styled.div`
       padding-left: 2px;
     }
 
-    .button {
-      width: 80px;
+    .form-buttons {
+      gap: 30px;
+      .button {
+        width: 80px;
+      }
     }
   }
 `;

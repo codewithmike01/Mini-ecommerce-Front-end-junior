@@ -26,6 +26,7 @@ function Header({ headingText }) {
 export default Header;
 const Container = styled.div`
   padding-top: 3rem;
+  margin-top: 20px;
 
   .header-items {
     align-items: flex-end;

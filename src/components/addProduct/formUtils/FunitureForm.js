@@ -17,7 +17,10 @@ function FunitureForm() {
         <input type="text" id="length" name="length" />
       </div>
 
-      <p>Please Provide dimensions in HxWxL</p>
+      <p>
+        {' '}
+        <span className="very-imp">*</span>Please Provide dimensions in HxWxL
+      </p>
     </Container>
   );
 }

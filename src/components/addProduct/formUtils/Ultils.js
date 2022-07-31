@@ -1,3 +1,4 @@
+// SelectedFormItem for Form Switcher
 const selectedFormItem = (state) => {
   let selectedValue = '';
   for (const key in state) {
@@ -8,6 +9,7 @@ const selectedFormItem = (state) => {
   return selectedValue;
 };
 
+// getFormValue and format properly
 export const getFormValue = (selectedValue, e) => {
   const defaultFormValues = {
     sku: e.target.sku.value,
@@ -37,6 +39,28 @@ export const getFormValue = (selectedValue, e) => {
     default:
       return {};
   }
+};
+
+// Empty form checker
+export const isEmpty = (inputValue) => {
+  // Base case
+  if (Object.keys(inputValue).length === 0) {
+    return [true, 'Please, submit required data'];
+  }
+
+  for (const val in inputValue) {
+    if (inputValue[val] === '') {
+      return [true, 'Please, submit required data'];
+    }
+  }
+
+  return [false, ''];
+};
+
+// Validate date type
+
+export const validateData = (data) => {
+  console.log(data);
 };
 
 export default selectedFormItem;

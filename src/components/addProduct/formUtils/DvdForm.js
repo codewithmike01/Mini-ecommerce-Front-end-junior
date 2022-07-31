@@ -8,7 +8,9 @@ function DvdForm() {
         <label>Size (MB) </label>
         <input type="text" id="DVD" name="DVD" />
       </div>
-      <p>Please Provide Size</p>
+      <p>
+        <span className="very-imp">*</span>Please Provide Size
+      </p>
     </Container>
   );
 }
