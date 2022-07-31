@@ -61,20 +61,24 @@ function Form() {
     const isEmptyReponse = isEmpty(formData);
 
     if (isEmptyReponse[0] === true) {
-      setNotice(() => ({
-        show: isEmptyReponse[0],
-        message: isEmptyReponse[1],
-      }));
-
-      setTimeout(() => {
-        setNotice(() => ({
-          ...notice,
-          show: false,
-        }));
-      }, 5000);
+      handleNotice(isEmptyReponse);
     } else {
       validateData(formData);
     }
+  };
+
+  const handleNotice = (checkResult) => {
+    setNotice(() => ({
+      show: checkResult[0],
+      message: checkResult[1],
+    }));
+
+    setTimeout(() => {
+      setNotice(() => ({
+        ...notice,
+        show: false,
+      }));
+    }, 5000);
   };
 
   return (
