@@ -10,7 +10,7 @@ function FunitureForm() {
       </div>
       <div className="form-item flex j-between">
         <label>Width (CM)</label>
-        <input type="text" id="weight" name="weight" />
+        <input type="text" id="width" name="width" />
       </div>
       <div className="form-item flex j-between">
         <label>Length (CM)</label>

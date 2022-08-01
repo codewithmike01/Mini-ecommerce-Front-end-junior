@@ -3,19 +3,22 @@ import styled from 'styled-components';
 import BookForm from './formUtils/BookForm';
 import DvdForm from './formUtils/DvdForm';
 import FunitureForm from './formUtils/FunitureForm';
-import selectedFormItem, { getFormValue, isValid } from './formUtils/Ultils';
+import selectedFormItem, {
+  getFormValue,
+  isValid,
+  productType,
+} from './formUtils/Ultils';
 import { useNavigate } from 'react-router-dom';
 import Notification from '../feature/Notification';
 
 function Form() {
-  const noItemShown = {
+  const navigate = useNavigate();
+  const [product, setProductType] = useState({
     DVD: false,
     Furniture: false,
     Book: false,
-  };
+  });
 
-  const navigate = useNavigate();
-  const [state, setState] = useState(noItemShown);
   const [notice, setNotice] = useState({
     show: false,
     message: '',
@@ -23,42 +26,20 @@ function Form() {
 
   const formSelect = (e) => {
     const itemSelected = e.target.value;
-
-    setState(() => {
-      switch (itemSelected) {
-        case 'DVD':
-          return {
-            Furniture: false,
-            Book: false,
-            DVD: !state['DVD'],
-          };
-        case 'Furniture':
-          return {
-            DVD: false,
-            Book: false,
-            Furniture: !state['Furniture'],
-          };
-        case 'Book':
-          return {
-            Furniture: false,
-            DVD: false,
-            Book: !state['Book'],
-          };
-        default:
-          return { noItemShown };
-      }
-    });
+    const newState = productType(itemSelected, product);
+    setProductType(newState);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const selectedValue = selectedFormItem(state);
+    const selectedValue = selectedFormItem(product);
     const formData = getFormValue(selectedValue, e);
     const isValidReponse = isValid(formData);
 
     if (isValidReponse[0] === true) {
       handleNotice(isValidReponse);
     } else {
+      // Valid Form ready to send
       console.log(formData);
     }
   };
@@ -102,7 +83,7 @@ function Form() {
 
           <div className=" switcher form-item flex j-between">
             <label>Type Switcher</label>
-            <select onChange={(e) => formSelect(e)}>
+            <select onChange={(e) => formSelect(e)} id="productType">
               <option selected>Type Switcher</option>
               <option value="DVD">DVD</option>
               <option value="Furniture">Furniture</option>
@@ -112,19 +93,19 @@ function Form() {
           <section className="dynamic-form flex column">
             <div
               className="book-form"
-              style={{ display: state['Book'] ? 'block' : 'none' }}
+              style={{ display: product['Book'] ? 'block' : 'none' }}
             >
               <BookForm />
             </div>
             <div
               className="dvd-form"
-              style={{ display: state['DVD'] ? 'block' : 'none' }}
+              style={{ display: product['DVD'] ? 'block' : 'none' }}
             >
               <DvdForm />
             </div>
             <div
               className="furniture-form"
-              style={{ display: state['Furniture'] ? 'block' : 'none' }}
+              style={{ display: product['Furniture'] ? 'block' : 'none' }}
             >
               <FunitureForm />
             </div>
@@ -176,13 +157,6 @@ const Container = styled.div`
     input:focus {
       outline: none;
       padding-left: 2px;
-    }
-
-    .form-buttons {
-      gap: 30px;
-      .button {
-        width: 80px;
-      }
     }
   }
 `;

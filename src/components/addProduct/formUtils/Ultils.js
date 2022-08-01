@@ -29,7 +29,39 @@ export const checkValue = (data, val) => {
 Direct Functions to React Form (Util)
 
 =======================================*/
+
+// Select Product Type
+export const productType = (itemSelected, state) => {
+  switch (itemSelected) {
+    case 'DVD':
+      return {
+        Furniture: false,
+        Book: false,
+        DVD: !state['DVD'],
+      };
+    case 'Furniture':
+      return {
+        DVD: false,
+        Book: false,
+        Furniture: !state['Furniture'],
+      };
+    case 'Book':
+      return {
+        Furniture: false,
+        DVD: false,
+        Book: !state['Book'],
+      };
+    default:
+      return {
+        DVD: false,
+        Furniture: false,
+        Book: false,
+      };
+  }
+};
+
 // SelectedFormItem for Form Switcher
+// Pick product with true
 const selectedFormItem = (state) => {
   let selectedValue = '';
   for (const key in state) {
@@ -64,7 +96,7 @@ export const getFormValue = (selectedValue, e) => {
       return {
         ...defaultFormValues,
         height: e.target.height.value,
-        width: e.target.weight.value,
+        width: e.target.width.value,
         length: e.target.length.value,
       };
     default:
@@ -85,6 +117,7 @@ export const isValid = (inputValue) => {
       return [true, `${val}: Please, submit required data`];
     }
     resultValidity = checkValue(inputValue[val], val);
+    // console.log(val, inputValue[val]);
     if (resultValidity === false) {
       return [true, `${val}: Please, provide the data of indicated type`];
     }
