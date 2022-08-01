@@ -44,10 +44,10 @@ function Form() {
     }
   };
 
-  const handleNotice = (checkResult) => {
+  const handleNotice = (noticeMessage) => {
     setNotice(() => ({
-      show: checkResult[0],
-      message: checkResult[1],
+      show: noticeMessage[0],
+      message: noticeMessage[1],
     }));
 
     setTimeout(() => {
