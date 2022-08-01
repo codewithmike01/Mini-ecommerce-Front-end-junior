@@ -133,13 +133,14 @@ function Form() {
           <div className="form-buttons flex">
             <button
               type="button"
-              className="button"
+              className="button cancel"
               onClick={() => navigate('/')}
+              hidden
             >
               Cancel
             </button>
 
-            <button type="submit" className="button">
+            <button type="submit" className="button submit" hidden>
               Save
             </button>
           </div>
