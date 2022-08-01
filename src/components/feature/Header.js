@@ -33,6 +33,8 @@ const Container = styled.div`
     .header-buttons {
       align-items: center;
       gap: 1rem;
+      display: ${({ heading }) =>
+        heading.includes('Product Add') ? 'none' : 'flex'};
     }
   }
 `;
