@@ -3,11 +3,7 @@ import styled from 'styled-components';
 import BookForm from './formUtils/BookForm';
 import DvdForm from './formUtils/DvdForm';
 import FunitureForm from './formUtils/FunitureForm';
-import selectedFormItem, {
-  getFormValue,
-  isEmpty,
-  validateData,
-} from './formUtils/Ultils';
+import selectedFormItem, { getFormValue, isValid } from './formUtils/Ultils';
 import { useNavigate } from 'react-router-dom';
 import Notification from '../feature/Notification';
 
@@ -58,12 +54,12 @@ function Form() {
     e.preventDefault();
     const selectedValue = selectedFormItem(state);
     const formData = getFormValue(selectedValue, e);
-    const isEmptyReponse = isEmpty(formData);
+    const isValidReponse = isValid(formData);
 
-    if (isEmptyReponse[0] === true) {
-      handleNotice(isEmptyReponse);
+    if (isValidReponse[0] === true) {
+      handleNotice(isValidReponse);
     } else {
-      validateData(formData);
+      console.log(formData);
     }
   };
 

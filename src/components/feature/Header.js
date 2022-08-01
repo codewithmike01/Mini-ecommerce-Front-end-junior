@@ -9,11 +9,11 @@ function Header({ headingText }) {
     navigate('/add-product');
   };
   return (
-    <Container>
+    <Container heading={headingText}>
       <section className="header-items flex j-between">
         <h1>{headingText}</h1>
 
-        <div className="header-buttons flex">
+        <div className="header-buttons">
           <Button type="button" title="ADD" actionHandle={HandleAddPage} />
           <Button type="button" title="MASS DELETE" />
         </div>

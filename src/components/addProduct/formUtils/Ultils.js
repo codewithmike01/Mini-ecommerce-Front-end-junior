@@ -1,3 +1,34 @@
+/*================================
+
+Helper Functions for Util function
+
+==================================*/
+// Reg check
+
+export const checkValue = (data, val) => {
+  let regEx = '';
+
+  if (
+    val === 'price' ||
+    val === 'height' ||
+    val === 'length' ||
+    val === 'width' ||
+    val === 'weight' ||
+    val === 'size'
+  ) {
+    regEx = /(^[0-9])\d*(.?\d+)?$/;
+  } else {
+    return true;
+  }
+
+  return regEx.test(data);
+};
+
+/*=====================================
+
+Direct Functions to React Form (Util)
+
+=======================================*/
 // SelectedFormItem for Form Switcher
 const selectedFormItem = (state) => {
   let selectedValue = '';
@@ -21,19 +52,19 @@ export const getFormValue = (selectedValue, e) => {
     case 'DVD':
       return {
         ...defaultFormValues,
-        DVD: e.target.DVD.value,
+        size: e.target.DVD.value,
       };
     case 'Book':
       return {
         ...defaultFormValues,
-        Book: e.target.book.value,
+        weight: e.target.book.value,
       };
 
     case 'Furniture':
       return {
         ...defaultFormValues,
         height: e.target.height.value,
-        weight: e.target.weight.value,
+        width: e.target.weight.value,
         length: e.target.length.value,
       };
     default:
@@ -42,7 +73,8 @@ export const getFormValue = (selectedValue, e) => {
 };
 
 // Empty form checker
-export const isEmpty = (inputValue) => {
+export const isValid = (inputValue) => {
+  let resultValidity = '';
   // Base case
   if (Object.keys(inputValue).length === 0) {
     return [true, 'Please, submit required data'];
@@ -50,17 +82,15 @@ export const isEmpty = (inputValue) => {
 
   for (const val in inputValue) {
     if (inputValue[val] === '') {
-      return [true, 'Please, submit required data'];
+      return [true, `${val}: Please, submit required data`];
+    }
+    resultValidity = checkValue(inputValue[val], val);
+    if (resultValidity === false) {
+      return [true, `${val}: Please, provide the data of indicated type`];
     }
   }
 
   return [false, ''];
-};
-
-// Validate date type
-
-export const validateData = (data) => {
-  console.log(data);
 };
 
 export default selectedFormItem;
