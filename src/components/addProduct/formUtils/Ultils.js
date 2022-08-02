@@ -117,7 +117,6 @@ export const isValid = (inputValue) => {
       return [true, `${val}: Please, submit required data`];
     }
     resultValidity = checkValue(inputValue[val], val);
-    // console.log(val, inputValue[val]);
     if (resultValidity === false) {
       return [true, `${val}: Please, provide the data of indicated type`];
     }

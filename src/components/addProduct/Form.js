@@ -13,6 +13,7 @@ import Notification from '../feature/Notification';
 
 function Form() {
   const navigate = useNavigate();
+
   const [product, setProductType] = useState({
     DVD: false,
     Furniture: false,

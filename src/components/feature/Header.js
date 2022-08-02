@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Button from '../utilities/Button';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 function Header({ headingText }) {
   const navigate = useNavigate();
+  const button_cancel = useRef();
   const handleAddPage = () => {
     navigate('/add-product');
   };
@@ -15,6 +16,8 @@ function Header({ headingText }) {
 
   const handleFormCancel = () => {
     document.querySelector('form').querySelector('.cancel').click();
+    console.log(button_cancel.current);
+    // button_cancel.current.click();
   };
 
   return (
