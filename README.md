@@ -1,7 +1,10 @@
 # SandiWeb assccessment 💻
 
 This is a mini ecommerce app with php backend(not yet avialable). <br > <br > <br >
-https://user-images.githubusercontent.com/58771507/184529883-30d83a33-1273-4b7d-bbc6-97464891f03b.mp4
+
+
+https://user-images.githubusercontent.com/58771507/184530787-12e35cef-dd90-4d3d-90ae-3a59886a4cbe.mp4
+
 
 <br > <br >
 
