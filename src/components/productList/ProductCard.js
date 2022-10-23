@@ -34,6 +34,7 @@ const Container = styled.div`
 
   .product-list-text {
     text-align: center;
+    margin-top: 10px;
     gap: 0.2rem;
   }
 `;

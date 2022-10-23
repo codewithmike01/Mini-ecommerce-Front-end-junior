@@ -18,9 +18,10 @@ function ProductList() {
 
 export default ProductList;
 const Container = styled.div`
+  padding: 0 5px;
   padding-top: 1.5rem;
   display: flex;
-  gap: 25px;
+  gap: 10px;
   justify-content: center;
   flex-flow: row wrap;
 `;
