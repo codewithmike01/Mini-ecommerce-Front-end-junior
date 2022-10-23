@@ -6,9 +6,9 @@ https://user-images.githubusercontent.com/58771507/184530703-49dcd10c-e21a-4ac4-
 
 <br> <br> <br>
 
-## Live Preview (Not avialable yet)
+## Live Preview
 
-LIVE DEMO:
+[LIVE DEMO](https://mini-ecommerce-accessment.vercel.app/)
 
 ## Built With
 
