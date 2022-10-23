@@ -1,9 +1,10 @@
 # SandiWeb assccessment 💻
 
-This is a mini ecommerce app with php backend(not yet avialable). <br > <br > <br >
-https://user-images.githubusercontent.com/58771507/184529883-30d83a33-1273-4b7d-bbc6-97464891f03b.mp4
+This is a mini ecommerce app with python flask backend(not yet avialable). <br > <br > <br >
 
-<br > <br >
+https://user-images.githubusercontent.com/58771507/184530703-49dcd10c-e21a-4ac4-b570-0a25125a9f8a.mp4
+
+<br> <br> <br>
 
 ## Live Preview (Not avialable yet)
 
