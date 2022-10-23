@@ -11,7 +11,8 @@ function Notification({ message, show }) {
 
 export default Notification;
 const Container = styled.div`
-  width: 95%;
+  display: ${({ show }) => (show ? 'flex' : 'none')};
+  width: 85%;
   text-align: center;
   border-radius: 5px;
   background-color: rgb(8, 167, 8);
@@ -20,6 +21,7 @@ const Container = styled.div`
   padding: 7px 0;
   position: absolute;
   top: 10px;
-
-  display: ${({ show }) => (show ? 'block' : 'none')};
+  justify-content: center;
+  align-items: center;
+  transform: translateX(10%);
 `;
