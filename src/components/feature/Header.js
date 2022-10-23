@@ -48,8 +48,8 @@ export default Header;
 const Container = styled.div`
   padding-top: 3rem;
   margin-top: 20px;
-
   .header-items {
+    padding: 0 7px;
     align-items: flex-end;
     .header-buttons,
     .header-buttons-save {
@@ -65,6 +65,14 @@ const Container = styled.div`
     .header-buttons-save {
       display: ${({ heading }) =>
         heading.includes('Product List') ? 'none' : 'flex'};
+    }
+  }
+
+  @media screen and (max-width: 290px) {
+    .header-items {
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
     }
   }
 `;

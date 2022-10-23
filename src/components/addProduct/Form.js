@@ -82,8 +82,8 @@ function Form() {
             <input type="text" name="price" id="price" />
           </div>
 
-          <div className=" switcher form-item flex j-between">
-            <label>Type Switcher</label>
+          <div className=" switcher  flex ">
+            <label>Type Switcher: </label>
             <select onChange={(e) => formSelect(e)} id="productType">
               <option selected>Type Switcher</option>
               <option value="DVD">DVD</option>
@@ -134,20 +134,40 @@ function Form() {
 
 export default Form;
 const Container = styled.div`
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 20px;
   .product-form {
-    gap: 15px;
+    gap: 30px;
 
     .switcher {
       margin: 20px 0;
       padding-right: 15px;
+      flex-direction: flex;
+      align-items: center;
+      gap: 20px;
+
+      select {
+        padding: 4px;
+      }
+
+      label {
+        font-weight: bold;
+      }
     }
 
     .form-item {
-      gap: 20px;
-      align-items: flex-end;
+      flex-direction: column;
+      gap: 10px;
+
+      input {
+        padding: 4px 6px;
+      }
 
       label {
+        display: inline-block;
         font-size: 1rem;
+        font-weight: bold;
       }
     }
 

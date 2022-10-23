@@ -4,20 +4,32 @@ import styled from 'styled-components';
 function Footer() {
   return (
     <Container>
-      <hr className="footer-line line" />
-      <p>Sabdiweb test assignment by Mike</p>
+      <div className="wrapper">
+        <hr className="footer-line line" />
+        <p>Sabdiweb test assignment by Mike</p>
+      </div>
     </Container>
   );
 }
 
 export default Footer;
 const Container = styled.div`
-  .footer-line {
-    margin-top: 4rem;
-  }
+  position: relative;
+  padding: 10px 0;
+  height: 20vh;
 
-  p {
-    margin-top: 10px;
-    text-align: center;
+  .wrapper {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    .footer-line {
+      margin-top: 1rem;
+    }
+
+    p {
+      margin-top: 10px;
+      text-align: center;
+    }
   }
 `;
