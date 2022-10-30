@@ -41,7 +41,28 @@ function Form() {
       handleNotice(isValidReponse);
     } else {
       // Valid Form ready to send
-      console.log(formData);
+      let measure = '';
+      let category_id = product['DVD'] === true ? 2 : 1;
+
+      if (product['Furniture'] === true) {
+        measure = `${formData['height']}X${formData['width']}X${formData['length']}`;
+        console.log({
+          sdk: formData['sku'],
+          name: formData['name'],
+          price: formData['price'],
+          measure: measure,
+          category_id: 3,
+        });
+      } else {
+        measure = category_id === 1 ? formData['weight'] : formData['size'];
+        console.log({
+          sdk: formData['sku'],
+          name: formData['name'],
+          price: formData['price'],
+          measure: measure,
+          category_id: category_id,
+        });
+      }
     }
   };
 
@@ -85,7 +106,7 @@ function Form() {
           <div className=" switcher  flex ">
             <label>Type Switcher: </label>
             <select onChange={(e) => formSelect(e)} id="productType">
-              <option selected>Type Switcher</option>
+              <option defaultValue>Type Switcher</option>
               <option value="DVD">DVD</option>
               <option value="Furniture">Furniture</option>
               <option value="Book">Book</option>

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { ColorRing } from 'react-loader-spinner';
-// import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import { SpinnerCircular } from 'spinners-react';
 import styled from 'styled-components';
 import Header from '../feature/Header';
 import ProductCard from './ProductCard';
@@ -14,7 +13,7 @@ function ProductList() {
 
   useEffect(() => {
     dispatch(getProducts());
-  }, []);
+  }, [dispatch]);
 
   products = products['products']?.map(({ sdk, price, measure, name, id }) => (
     <ProductCard
@@ -30,22 +29,23 @@ function ProductList() {
     return (
       <>
         <Header headingText="Product List" />
-        <Container>{products}</Container>
+        {products.length > 0 && <Container>{products}</Container>}
+        {products.length === 0 && <h1>No product found</h1>}
       </>
     );
   } else {
     return (
       <>
         <Header headingText="Product List" />
-        <ColorRing
-          visible={true}
-          height="80"
-          width="80"
-          ariaLabel="blocks-loading"
-          wrapperStyle={{}}
-          wrapperClass="blocks-wrapper"
-          colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-        />
+        <SpinnerContainer className="spinner">
+          <SpinnerCircular
+            size={57}
+            thickness={78}
+            speed={100}
+            color="rgba(57, 126, 172, 1)"
+            secondaryColor="rgba(57, 110, 172, 0.44)"
+          />
+        </SpinnerContainer>
       </>
     );
   }
@@ -59,4 +59,15 @@ const Container = styled.div`
   gap: 10px;
   justify-content: center;
   flex-flow: row wrap;
+
+  .spinner {
+  }
+`;
+
+const SpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-top: 30px;
 `;

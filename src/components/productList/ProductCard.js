@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-function ProductCard({ sdk, price, size, product }) {
+function ProductCard({ sdk, price, size, product, id }) {
   return (
     <Container>
       <form>
@@ -11,14 +11,15 @@ function ProductCard({ sdk, price, size, product }) {
           className="delete-checkbox"
         />
       </form>
-      <section className="product-list-text flex column">
+      <section className="product-list-text flex column" id={id}>
         <p>{sdk}</p>
         <p>{product}</p>
         <p>
-          {price} <span> $ </span>
+          <span> $</span>
+          {price}
         </p>
         <p>
-          <span>{size}</span> 700 MB
+          <span>{size}</span>
         </p>
       </section>
     </Container>
@@ -30,6 +31,7 @@ const Container = styled.div`
   padding: 15px;
   padding-bottom: 30px;
   border: 2px solid #000;
+  width: 150px;
   height: 140px;
 
   .product-list-text {
