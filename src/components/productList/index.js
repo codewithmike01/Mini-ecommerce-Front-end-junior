@@ -1,19 +1,54 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { ColorRing } from 'react-loader-spinner';
+// import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import styled from 'styled-components';
 import Header from '../feature/Header';
 import ProductCard from './ProductCard';
-import ProductContent from './testContent/content';
+// import ProductContent from './testContent/content';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts } from '../../store/features/ProductSlice';
 
 function ProductList() {
-  const products = ProductContent.map(({ SDK, Price, Size, Name, id }) => (
-    <ProductCard sdk={SDK} price={Price} size={Size} product={Name} key={id} />
+  const dispatch = useDispatch();
+  let { products, loading } = useSelector((state) => state.product);
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
+
+  products = products['products']?.map(({ sdk, price, measure, name, id }) => (
+    <ProductCard
+      sdk={sdk}
+      price={price}
+      size={measure}
+      product={name}
+      key={id}
+    />
   ));
-  return (
-    <>
-      <Header headingText="Product List" />
-      <Container>{products}</Container>
-    </>
-  );
+
+  if (loading === false) {
+    return (
+      <>
+        <Header headingText="Product List" />
+        <Container>{products}</Container>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Header headingText="Product List" />
+        <ColorRing
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="blocks-loading"
+          wrapperStyle={{}}
+          wrapperClass="blocks-wrapper"
+          colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+        />
+      </>
+    );
+  }
 }
 
 export default ProductList;
