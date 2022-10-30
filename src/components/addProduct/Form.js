@@ -11,7 +11,7 @@ import selectedFormItem, {
 } from './formUtils/Ultils';
 import { useNavigate } from 'react-router-dom';
 import Notification from '../feature/Notification';
-import { postProduct, updateErrorMsg } from '../../store/features/ProductSlice';
+import { postProduct } from '../../store/features/ProductSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 function Form() {

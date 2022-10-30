@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const Url = 'https://mini-ecommerce-back-end.vercel.app';
+// const Url = 'https://mini-ecommerce-back-end.vercel.app/products';
+const LUrl = 'http://127.0.0.1:5000/products';
 const initialState = {
   products: [],
   loading: false,
@@ -67,7 +68,7 @@ export const getProducts = createAsyncThunk(
   'get/products',
   async (thunkApi) => {
     try {
-      const res = await axios.get(`${Url}`);
+      const res = await axios.get(`${LUrl}`);
       return res.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.response.data);
@@ -79,7 +80,7 @@ export const postProduct = createAsyncThunk(
   'post/Product',
   async (data, thunkApi) => {
     try {
-      const res = await axios.post(`${Url}`, data);
+      const res = await axios.post(`${LUrl}`, data);
       return res.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.response.data);
@@ -92,7 +93,7 @@ export const deleteProduct = createAsyncThunk(
   async (data, thunkApi) => {
     console.log(data);
     try {
-      const res = await axios.delete(`${Url}`, {
+      const res = await axios.delete(`${LUrl}`, {
         data: data,
       });
       return res.data;
