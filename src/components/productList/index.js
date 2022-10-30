@@ -29,8 +29,8 @@ function ProductList() {
     return (
       <>
         <Header headingText="Product List" />
-        {products.length > 0 && <Container>{products}</Container>}
-        {products.length === 0 && <h1>No product found</h1>}
+        {products?.length > 0 && <Container>{products}</Container>}
+        {products?.length === 0 && <h1>No product found</h1>}
       </>
     );
   } else {

@@ -10,10 +10,13 @@ import selectedFormItem, {
 } from './formUtils/Ultils';
 import { useNavigate } from 'react-router-dom';
 import Notification from '../feature/Notification';
+import { postProduct, updateErrorMsg } from '../../store/features/ProductSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Form() {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  const { postError, message } = useSelector((state) => state.product);
   const [product, setProductType] = useState({
     DVD: false,
     Furniture: false,
@@ -46,23 +49,37 @@ function Form() {
 
       if (product['Furniture'] === true) {
         measure = `${formData['height']}X${formData['width']}X${formData['length']}`;
-        console.log({
-          sdk: formData['sku'],
-          name: formData['name'],
-          price: formData['price'],
-          measure: measure,
-          category_id: 3,
-        });
+        dispatch(
+          postProduct({
+            sku: formData['sku'],
+            name: formData['name'],
+            price: parseInt(formData['price']),
+            measure: measure,
+            category_id: 3,
+          })
+        );
       } else {
         measure = category_id === 1 ? formData['weight'] : formData['size'];
-        console.log({
-          sdk: formData['sku'],
-          name: formData['name'],
-          price: formData['price'],
-          measure: measure,
-          category_id: category_id,
-        });
+        dispatch(
+          postProduct({
+            sku: formData['sku'],
+            name: formData['name'],
+            price: parseInt(formData['price']),
+            measure: measure,
+            category_id: category_id,
+          })
+        );
       }
+    }
+
+    if (message === true) {
+      handleNotice([true, 'Product added Successfully']);
+      setTimeout(() => {
+        navigate('/');
+      }, 5000);
+    } else {
+      handleNotice([true, 'Sku conflict (Should be unique)']);
+      dispatch(updateErrorMsg(''));
     }
   };
 
