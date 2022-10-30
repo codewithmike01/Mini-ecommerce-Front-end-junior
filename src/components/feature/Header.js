@@ -1,11 +1,19 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import Button from '../utilities/Button';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteProduct } from '../../store/features/ProductSlice';
+import Notification from '../feature/Notification';
 
 function Header({ headingText }) {
   const navigate = useNavigate();
-  const button_cancel = useRef();
+  const dispatch = useDispatch();
+  const [notice, setNotice] = useState({
+    show: false,
+    message: '',
+  });
+  const { productDelete } = useSelector((state) => state.product);
   const handleAddPage = () => {
     navigate('/add-product');
   };
@@ -16,18 +24,44 @@ function Header({ headingText }) {
 
   const handleFormCancel = () => {
     document.querySelector('form').querySelector('.cancel').click();
-    console.log(button_cancel.current);
-    // button_cancel.current.click();
+  };
+
+  const handleDelete = () => {
+    if (deleteProduct.length > 0) {
+      dispatch(deleteProduct({ list: productDelete }));
+
+      handleNotice([true, 'Product(s) deleted Successfully']);
+    }
+  };
+
+  const handleNotice = (noticeMessage) => {
+    setNotice(() => ({
+      show: noticeMessage[0],
+      message: noticeMessage[1],
+    }));
+
+    setTimeout(() => {
+      setNotice(() => ({
+        ...notice,
+        show: false,
+      }));
+      window.location.reload();
+    }, 2000);
   };
 
   return (
     <Container heading={headingText}>
+      <Notification message={notice['message']} show={notice['show']} />
       <section className="header-items flex j-between">
         <h1>{headingText}</h1>
 
         <div className="header-buttons">
           <Button type="button" title="ADD" actionHandle={handleAddPage} />
-          <Button type="button" title="MASS DELETE" />
+          <Button
+            type="button"
+            title="MASS DELETE"
+            actionHandle={handleDelete}
+          />
         </div>
 
         <div className="header-buttons-save">

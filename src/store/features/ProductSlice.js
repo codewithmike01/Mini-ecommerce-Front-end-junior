@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const Url = 'https://mini-ecommerce-back-end.vercel.app';
 const initialState = {
   products: [],
   loading: false,
-  fetchError: '',
-  postError: '',
-  message: '',
+  error: '',
+  message: false,
+  productDelete: [],
 };
 
 const ProductSlice = createSlice({
@@ -16,60 +17,57 @@ const ProductSlice = createSlice({
     updateErrorMsg: (state, { payload }) => {
       state.fetchError = payload;
       state.postError = payload;
-      state.message = payload;
+      state.message = false;
+    },
+    setDeleteProduct: (state, { payload }) => {
+      if (state.productDelete.includes(payload)) {
+        state.productDelete = state.productDelete.filter(
+          (val) => val !== payload
+        );
+      } else {
+        state.productDelete.push(payload);
+      }
     },
   },
   extraReducers(builder) {
     builder
       .addCase(getProducts.pending, (state, { payload }) => {
-        return {
-          ...state,
-          loading: true,
-        };
+        state.loading = true;
       })
       .addCase(getProducts.fulfilled, (state, { payload }) => {
-        return {
-          ...state,
-          products: payload,
-          loading: false,
-        };
-      })
-      .addCase(getProducts.rejected, (state, { payload, error }) => {
+        state.products = payload;
         state.loading = false;
-        state.fetchError = error;
-        return {
-          ...state,
-          loading: false,
-          fetchError: payload,
-        };
+      })
+      .addCase(getProducts.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
       });
+    // Add Product
     builder
       .addCase(postProduct.fulfilled, (state, { payload }) => {
-        return {
-          ...state,
-          products: payload,
-          message: payload['success'],
-        };
+        state.products = payload;
+        state.message = payload['success'];
+        // state.error = '';
       })
       .addCase(postProduct.rejected, (state, { payload }) => {
-        return {
-          ...state,
-          postError: payload,
-        };
+        // state.message = false;
+        state.error = true;
+      });
+    builder
+      .addCase(deleteProduct.fulfilled, (state, { payload }) => {
+        state.products = payload;
+      })
+      .addCase(deleteProduct.rejected, (state, { payload }) => {
+        state.error = payload;
       });
   },
 });
 
-export const getProducts = createAsyncThunk('get/products', async () => {
-  const res = await axios.get('http://127.0.0.1:5000/products');
-  return res.data;
-});
-
-export const postProduct = createAsyncThunk(
-  'post/Product',
-  async (data, thunkApi) => {
+export const getProducts = createAsyncThunk(
+  'get/products',
+  async (thunkApi) => {
     try {
-      const res = await axios.post('http://127.0.0.1:5000/products', data);
+      const res = await axios.get(`${Url}`);
       return res.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.response.data);
@@ -77,5 +75,32 @@ export const postProduct = createAsyncThunk(
   }
 );
 
-export const { updateErrorMsg } = ProductSlice.actions;
+export const postProduct = createAsyncThunk(
+  'post/Product',
+  async (data, thunkApi) => {
+    try {
+      const res = await axios.post(`${Url}`, data);
+      return res.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const deleteProduct = createAsyncThunk(
+  'delete/Product',
+  async (data, thunkApi) => {
+    console.log(data);
+    try {
+      const res = await axios.delete(`${Url}`, {
+        data: data,
+      });
+      return res.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const { updateErrorMsg, setDeleteProduct } = ProductSlice.actions;
 export default ProductSlice.reducer;

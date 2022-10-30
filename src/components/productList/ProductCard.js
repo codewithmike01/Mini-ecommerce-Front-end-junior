@@ -1,18 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
+import { setDeleteProduct } from '../../store/features/ProductSlice';
+import { useDispatch } from 'react-redux';
 
-function ProductCard({ sdk, price, size, product, id }) {
+function ProductCard({ sku, price, size, product, id }) {
+  const dispatch = useDispatch();
   return (
     <Container>
       <form>
         <input
           type="checkbox"
           name="product-list"
+          value={id}
           className="delete-checkbox"
+          onClick={(e) => dispatch(setDeleteProduct(parseInt(e.target.value)))}
         />
       </form>
       <section className="product-list-text flex column" id={id}>
-        <p>{sdk}</p>
+        <p>{sku}</p>
         <p>{product}</p>
         <p>
           <span> $</span>

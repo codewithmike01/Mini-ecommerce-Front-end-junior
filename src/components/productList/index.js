@@ -15,12 +15,13 @@ function ProductList() {
     dispatch(getProducts());
   }, [dispatch]);
 
-  products = products['products']?.map(({ sdk, price, measure, name, id }) => (
+  products = products['products']?.map(({ sku, price, measure, name, id }) => (
     <ProductCard
-      sdk={sdk}
+      sku={sku}
       price={price}
       size={measure}
       product={name}
+      id={id}
       key={id}
     />
   ));

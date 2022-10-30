@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BookForm from './formUtils/BookForm';
 import DvdForm from './formUtils/DvdForm';
@@ -16,72 +17,22 @@ import { useDispatch, useSelector } from 'react-redux';
 function Form() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { postError, message } = useSelector((state) => state.product);
+  const { message, loading, error } = useSelector((state) => state.product);
+  const [load, setLoad] = useState(false);
+  const [errorMsg, setError] = useState('');
+  useEffect(() => {
+    if (message === true && loading === false) {
+      setLoad(true);
+    } else if (error !== '' && loading === false) {
+      setError(error);
+    }
+  }, [dispatch]);
+
   const [product, setProductType] = useState({
     DVD: false,
     Furniture: false,
     Book: false,
   });
-
-  const [notice, setNotice] = useState({
-    show: false,
-    message: '',
-  });
-
-  const formSelect = (e) => {
-    const itemSelected = e.target.value;
-    const newState = productType(itemSelected, product);
-    setProductType(newState);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const selectedValue = selectedFormItem(product);
-    const formData = getFormValue(selectedValue, e);
-    const isValidReponse = isValid(formData);
-
-    if (isValidReponse[0] === true) {
-      handleNotice(isValidReponse);
-    } else {
-      // Valid Form ready to send
-      let measure = '';
-      let category_id = product['DVD'] === true ? 2 : 1;
-
-      if (product['Furniture'] === true) {
-        measure = `${formData['height']}X${formData['width']}X${formData['length']}`;
-        dispatch(
-          postProduct({
-            sku: formData['sku'],
-            name: formData['name'],
-            price: parseInt(formData['price']),
-            measure: measure,
-            category_id: 3,
-          })
-        );
-      } else {
-        measure = category_id === 1 ? formData['weight'] : formData['size'];
-        dispatch(
-          postProduct({
-            sku: formData['sku'],
-            name: formData['name'],
-            price: parseInt(formData['price']),
-            measure: measure,
-            category_id: category_id,
-          })
-        );
-      }
-    }
-
-    if (message === true) {
-      handleNotice([true, 'Product added Successfully']);
-      setTimeout(() => {
-        navigate('/');
-      }, 5000);
-    } else {
-      handleNotice([true, 'Sku conflict (Should be unique)']);
-      dispatch(updateErrorMsg(''));
-    }
-  };
 
   const handleNotice = (noticeMessage) => {
     setNotice(() => ({
@@ -95,6 +46,70 @@ function Form() {
         show: false,
       }));
     }, 5000);
+  };
+
+  const [notice, setNotice] = useState({
+    show: false,
+    message: '',
+  });
+
+  const formSelect = (e) => {
+    const itemSelected = e.target.value;
+    const newState = productType(itemSelected, product);
+    setProductType(newState);
+  };
+
+  const handleSubmit = async (e) => {
+    setLoad(true);
+    e.preventDefault();
+    const selectedValue = selectedFormItem(product);
+    const formData = getFormValue(selectedValue, e);
+    const isValidReponse = isValid(formData);
+    let res = '';
+    if (isValidReponse[0] === true) {
+      handleNotice(isValidReponse);
+    } else {
+      // Valid Form ready to send
+      let measure = '';
+      let category_id = product['DVD'] === true ? 2 : 1;
+      if (product['Furniture'] === true) {
+        measure = `${formData['height']}X${formData['width']}X${formData['length']}`;
+        res = await dispatch(
+          postProduct({
+            sku: formData['sku'],
+            name: formData['name'],
+            price: parseInt(formData['price']),
+            measure: measure,
+            category_id: 3,
+          })
+        );
+      } else {
+        measure = category_id === 1 ? formData['weight'] : formData['size'];
+        res = await dispatch(
+          postProduct({
+            sku: formData['sku'],
+            name: formData['name'],
+            price: parseInt(formData['price']),
+            measure: measure,
+            category_id: category_id,
+          })
+        );
+      }
+
+      if (res !== '') {
+        console.log('hello');
+        if (load === true) {
+          handleNotice([true, 'Product added Successfully']);
+          setTimeout(() => {
+            setLoad(false);
+            navigate('/');
+          }, 3000);
+        } else if (errorMsg !== '') {
+          handleNotice([true, 'Sku conflict (Should be unique)']);
+          setError('');
+        }
+      }
+    }
   };
 
   return (
