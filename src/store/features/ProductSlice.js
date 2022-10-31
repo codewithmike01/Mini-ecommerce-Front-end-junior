@@ -6,7 +6,7 @@ const LUrl = 'http://127.0.0.1:5000/products';
 const initialState = {
   products: [],
   loading: false,
-  error: '',
+  error: false,
   message: false,
   productDelete: [],
 };
@@ -16,9 +16,7 @@ const ProductSlice = createSlice({
   name: 'product',
   reducers: {
     updateErrorMsg: (state, { payload }) => {
-      state.fetchError = payload;
-      state.postError = payload;
-      state.message = false;
+      state.error = false;
     },
     setDeleteProduct: (state, { payload }) => {
       if (state.productDelete.includes(payload)) {
@@ -38,6 +36,10 @@ const ProductSlice = createSlice({
       .addCase(getProducts.fulfilled, (state, { payload }) => {
         state.products = payload;
         state.loading = false;
+
+        // Set init check states
+        state.message = false;
+        state.error = '';
       })
       .addCase(getProducts.rejected, (state, { payload }) => {
         state.loading = false;

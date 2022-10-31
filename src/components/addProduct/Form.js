@@ -11,22 +11,26 @@ import selectedFormItem, {
 } from './formUtils/Ultils';
 import { useNavigate } from 'react-router-dom';
 import Notification from '../feature/Notification';
-import { postProduct } from '../../store/features/ProductSlice';
+import { postProduct, updateErrorMsg } from '../../store/features/ProductSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 function Form() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { message, loading, error } = useSelector((state) => state.product);
-  const [load, setLoad] = useState(false);
-  const [errorMsg, setError] = useState('');
+  const { message, error, products } = useSelector((state) => state.product);
+
   useEffect(() => {
-    if (message === true && loading === false) {
-      setLoad(true);
-    } else if (error !== '' && loading === false) {
-      setError(error);
+    if (message === true) {
+      handleNotice([true, 'Product added Successfully']);
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
+    } else if (error === true) {
+      handleNotice([true, 'Sku conflict (Should be unique)']);
+      // Set error back to false
+      dispatch(updateErrorMsg());
     }
-  }, [dispatch]);
+  }, [dispatch, products, error]);
 
   const [product, setProductType] = useState({
     DVD: false,
@@ -59,13 +63,12 @@ function Form() {
     setProductType(newState);
   };
 
-  const handleSubmit = async (e) => {
-    setLoad(true);
+  const handleSubmit = (e) => {
     e.preventDefault();
     const selectedValue = selectedFormItem(product);
     const formData = getFormValue(selectedValue, e);
     const isValidReponse = isValid(formData);
-    let res = '';
+
     if (isValidReponse[0] === true) {
       handleNotice(isValidReponse);
     } else {
@@ -74,7 +77,7 @@ function Form() {
       let category_id = product['DVD'] === true ? 2 : 1;
       if (product['Furniture'] === true) {
         measure = `${formData['height']}X${formData['width']}X${formData['length']}`;
-        res = await dispatch(
+        dispatch(
           postProduct({
             sku: formData['sku'],
             name: formData['name'],
@@ -85,7 +88,7 @@ function Form() {
         );
       } else {
         measure = category_id === 1 ? formData['weight'] : formData['size'];
-        res = await dispatch(
+        dispatch(
           postProduct({
             sku: formData['sku'],
             name: formData['name'],
@@ -94,20 +97,6 @@ function Form() {
             category_id: category_id,
           })
         );
-      }
-
-      if (res !== '') {
-        console.log('hello');
-        if (load === true) {
-          handleNotice([true, 'Product added Successfully']);
-          setTimeout(() => {
-            setLoad(false);
-            navigate('/');
-          }, 3000);
-        } else if (errorMsg !== '') {
-          handleNotice([true, 'Sku conflict (Should be unique)']);
-          setError('');
-        }
       }
     }
   };
