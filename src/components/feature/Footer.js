@@ -6,7 +6,7 @@ function Footer() {
     <Container>
       <div className="wrapper">
         <hr className="footer-line line" />
-        <p>Mini-Ecommerce by Mike</p>
+        <p>Shopping list by Mike</p>
       </div>
     </Container>
   );
